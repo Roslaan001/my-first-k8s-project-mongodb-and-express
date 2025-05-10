@@ -1,0 +1,47 @@
+# mongo-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb # let deployment know which pod for this deployment
+  template: # configuration for pods
+    metadata:
+      labels:
+        app: mongodb # each pod has a unique name, but pods can share the same label
+    spec:
+      containers: # containers in a pod, usually add one container per pod
+        - name: mongodb
+          image: mongo # pull image from Docker Hub
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret # secret name
+                  key: mongo-root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret # secret name
+                  key: mongo-root-password
+
+# mongo-service.yaml
+---
+apiVersion: v1
+kind: Service # type
+metadata:
+  name: mongodb-service # service name
+spec:
+  selector:
+    app: mongodb # connect pod through label
+  ports:
+    - protocol: TCP
+      port: 27017 # service port
+      targetPort: 27017 # pod port
