@@ -48,9 +48,9 @@ kubectl apply -f mongo-express.yml
 3. Access Mongo-Express:
 
 If using Minikube:
-
+```bash
 minikube service mongo-express-service
-
+```
 ---
 
 📚 What I Learned
