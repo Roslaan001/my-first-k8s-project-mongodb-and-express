@@ -28,18 +28,20 @@ This project includes:
 
 ```bash
 git clone https://github.com/Roslaan001/my-first-k8s-project-mongodb-and-express
+cd my-first-k8s-project-mongodb-and-express
 ```
 
 ---
 
 2. Apply the Kubernetes manifests:
 
-
+``` bash
 kubectl apply -f mongo-secret.yml
 kubectl apply -f mongo-configmap.yml
 kubectl apply -f mongodb-deployment.yml
-kubectl apply -f mongo-service.yaml
 kubectl apply -f mongo-express.yml
+
+```
 
 ---
 
